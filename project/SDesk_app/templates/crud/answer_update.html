@@ -1,0 +1,15 @@
+{% extends 'base_idx.html' %}
+
+{% block content %}
+
+
+   <form method="post" >
+       <div class="mb-3 text-start">
+        {% csrf_token %}
+           {{ form }}
+           <button type="submit" class="btn btn-success">{{ operation }}</button>
+
+       </div>
+    </form>
+
+{% endblock %}

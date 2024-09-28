@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h3>Удаление задачи</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        <p class="m-2">Вы действительно хотите удалить задачу №{{ task.num_doc }}?</p>
+    <input type="submit" class="btn btn-lg btn-success m-2" value="Подтвердить удаление" />
+    </form>
+{% endblock %}

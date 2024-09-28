@@ -1,0 +1,49 @@
+services:
+  sdesk_db:
+     image: postgres:16
+     container_name: sdesk_db
+     hostname: sdesk_db
+     environment:
+       POSTGRES_DB: sdesk_db
+       POSTGRES_USER: postgres
+       POSTGRES_PASSWORD: 12aaAA
+       PGDATA: "/var/lib/postgresql/data/pgdata"
+     ports:
+       - "5432:5432"
+     volumes:
+       - ./init_db.sql:/docker-entrypoint-initdb.d/init.sql
+       - pg_data:/var/lib/postgresql/data
+     healthcheck:
+        test: ["CMD-SHELL", "pg_isready -d sdesk_db -U postgres"]
+        interval: 15s
+        timeout: 3s
+        retries: 5
+
+  sdesk_app:
+    container_name: sdesk_app
+    hostname: sdesk_app
+    volumes:
+        - static:/static
+    env_file:
+        - .env
+    build:
+        context: .
+    depends_on:
+      sdesk_db:
+        condition: service_healthy
+
+  nginx:
+    container_name: sdesk_nginx
+    hostname: sdesk_nginx
+    build:
+      context: ./nginx
+    volumes:
+      - static:/static
+    ports:
+      - "80:80"
+    depends_on:
+      - sdesk_app
+
+volumes:
+  static:
+  pg_data:

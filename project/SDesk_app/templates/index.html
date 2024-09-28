@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Список задач{% endblock %}
+{% block body %}
+    <h1>List of task</h1>
+    {% for qs in QuerySet %}
+       <p>{{ qs.title }}  {{ qs.initiator }} {{ qs.status.status_str }}</p>
+    {% endfor %}
+     <br><br>
+    <p>Текущий пользователь: [{{ current_user.pk }}] {{ current_user.profile.last_name }}</p>
+    <br>
+     <button onclick="window.location.href='/logout/' " type="button" class="btn btn-lg btn-success">Выйти</button>
+{% endblock %}

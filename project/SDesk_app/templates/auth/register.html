@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}SDesk - Регистрация{% endblock %}
+
+{% block body %}
+<div class="container-md ">
+    <div class="container p-2 position-fixed top-50 start-50 translate-middle mb-3" style="width: 300px;">
+
+        <div class="text-center">
+            <img src="/static/images/logo.png" class="rounded" alt="SDesk">
+        </div>
+
+        <form method="post" class="form-floating mb-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="row ">
+                <div class="col  p-3">
+                    <button type="submit" class="btn btn-lg btn-success">Регистрация</button>
+                    <button type="button" onclick="window.location.href='/'" class="btn btn-lg btn-success mx-2">Вход</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

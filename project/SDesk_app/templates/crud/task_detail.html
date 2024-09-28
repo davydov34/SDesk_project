@@ -1,0 +1,102 @@
+{% extends 'base_idx.html' %}
+
+{% block head %}
+    <script type="text/javascript">
+        function clicked() {
+            var res = confirm('Вы действительно хотите выполнить эту операцию?');
+            return res
+        }
+</script>
+{% endblock %}
+
+{% block content %}
+      <div class='post-entry'>
+        <div class="container-md text-start" >
+            <div class="row px-2">
+                <div class="col px-2 col-sm-3">
+                    <h4>Задача №: {{ task.num_doc }}</h4>
+                </div>
+                <div class="row px-2">
+                    <div class="col px-2">
+                        <button type="button" onclick="window.location.href='/task/{{ task.pk }}/complete/';" class="btn btn-success px-2">Выполнить</button>
+                        <button type="button" onclick="window.location.href='/task/{{ task.pk }}/reject/';" class="btn btn-success">Отклонить</button>
+                        <button type="button" onclick="window.location.href='/task/{{ task.pk }}/accept/';" class="btn btn-success">Принять</button>
+                        <button type="button" onclick="window.location.href='/task/{{ task.pk }}/revoke/';" class="btn btn-success">Отозвать</button>
+                        <button type="button" onclick="window.location.href='/task/{{ task.pk }}/exec_update/';" class="btn btn-success">Назначить исполнителя</button>
+                        <button type="button" onclick="window.location.href='/task/{{ task.pk }}/delete/';" class="btn btn-success">Удалить</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row border border-success border-3 rounded m-2">
+                <div class="col m-2 p-2">
+                    <div class="row">
+                        <div class="col-auto">
+                                <label>Наименование:</label>
+                    <input class="text-field__input m-2" readonly="readonly"  type="text" value={{ task.title }} >
+
+                        </div>
+
+                                               <div class="col">
+                                <label>от</label>
+                    <input class="text-field__input form-floating m-2" readonly="readonly" type="text"  style="width: 135px;" value="{{ task.created_at|date:"d.m.Y" }}">
+                        </div>
+                    </div>
+
+                    <label>Статус задачи:</label>
+                    <input class="text-field__input form-floating m-2" readonly="readonly" type="text" value="{{ task.status }}" ><br>
+                    <label>Принята в работу</label>
+                    <input class="text-field__input form-floating m-2" readonly="readonly" type="text" style="width: 135px;" value="{{ task.start_exec_at|date:"d.m.Y H:i"}}">
+                    <label>Работа завершена</label>
+                    <input class="text-field__input form-floating m-2" readonly="readonly" type="text" style="width: 135px;" value="{{ task.stop_exec_at|date:"d.m.Y H:i"}}">
+                    <label>Задача закрыта</label>
+                    <input class="text-field__input form-floating m-2" readonly="readonly" type="text" style="width: 135px;" value="{{ task.closing_at|date:"d.m.Y H:i"}}">
+                </div>
+
+            </div>
+
+                <div class="row row-cols-auto border border-success border-3 rounded m-2">
+                    <div class="col m-2">
+                    <label>Инициатор:</label>
+                        <input class="text-field__input form-floating m-2" readonly="readonly" type="text"  value="{{ task.initiator.last_name }} {{  task.initiator.first_name }}" >
+                    <label>Внутренний номер:</label>
+                        <input class="text-field__input form-floating m-2" readonly="readonly" style="width: 135px;" type="text" value="{{ task.initiator.inner_phone }}" >
+                    <label>Сотовый телефон:</label>
+                        <input class="text-field__input form-floating m-2" readonly="readonly" style="width: 135px;" type="text" value="{{ task.initiator.cell_phone }}" ><br>
+                        <label>Отдел:</label>
+                        <input class="text-field__input form-floating m-2" readonly="readonly" type="text" value="{{ task.initiator.staff_position.department }}" >
+                        <label>Должность:</label>
+                        <input class="text-field__input form-floating m-2" readonly="readonly" type="text" value="{{ task.initiator.staff_position.position_name }}" ><br>
+
+                    </div>
+
+            </div>
+
+            <div class="row row-cols-auto border border-success border-3 rounded m-2">
+                    <div class="col m-2">
+                        <label>Исполнитель:</label>
+                        <input class="text-field__input form-floating" readonly="readonly" type="text" value="{{ task.executor.last_name }} {{  task.executor.first_name }}" >
+                    <label>Внутренний номер:</label>
+                        <input class="text-field__input form-floating m-2" readonly="readonly" style="width: 135px;" type="text" value="{{ task.executor.inner_phone }}" >
+                    <label>Сотовый телефон:</label>
+                        <input class="text-field__input form-floating m-2" readonly="readonly" style="width: 135px;" type="text" value="{{ task.executor.cell_phone }}" ><br>
+                        <label>Отдел:</label>
+                        <input class="text-field__input form-floating m-2" readonly="readonly" type="text" value="{{ task.executor.staff_position.department }}" >
+                        <label>Должность:</label>
+                        <input class="text-field__input form-floating m-2" readonly="readonly" type="text" value="{{ task.executor.staff_position.position_name }}" >
+                    </div>
+            </div>
+
+                <div class="row m-2">
+                        <label>Подробное описание проблемы:</label>
+                        <textarea rows="3" readonly="readonly">{{ task.description }}</textarea>
+                </div>
+                <div class="row m-2">
+                    <label>Комментарий от исполнителя:</label>
+                   <textarea rows="3" readonly="readonly">{{ task.answer }}</textarea>
+                </div>
+        </div>
+
+  </div>
+
+{% endblock %}

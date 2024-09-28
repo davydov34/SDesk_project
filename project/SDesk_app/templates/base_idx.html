@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}SDesk{% endblock %}</title>
+    <link rel="icon" href="{% static 'icon/icon.png' %}" sizes="32x32" type="image/png"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+            <nav class="navbar navbar-static-top bg-success p-2">
+             <div class="container-fluid">
+                  <div class="col text-start px-3">
+                        <img src="/static/images/logo_small.png" class="rounded" alt="SDesk">
+                  </div>
+
+                  <div class="badge text-bg-light fst-italic lh-md text-wrap mx-4">
+                      {{ current_user.profile.last_name }} {{ current_user.profile.first_name }} <br>
+                       [{{ current_user.profile.staff_position.position_name }}]
+                  </div>
+
+                 <button type="button" onclick="window.location.href='/logout/'" class="btn btn-light btn-md" >Выход</button>
+             </div>
+        </nav>
+
+<div class="container-fluid text-center">
+    <div class="row">
+        <div class="col-md-auto text-start">
+            <div class="d-flex align-items-start">
+              <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="btn btn-success position-relative my-3" onclick="window.location.href='/create_task/'" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Создать заявку</button>
+                    <button class="btn btn-success position-relative" onclick="window.location.href='/2/'" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Активные задачи</button>
+                    <button class="btn btn-success position-relative my-3" onclick="window.location.href='/1/'" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Не принятые задачи</button>
+                    <button class="btn btn-success position-relative" onclick="window.location.href='/0/'" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Завершенные задачи</button>
+                    <button class="btn btn-success position-relative my-3" onclick="window.location.href='/'" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Полный список задач</button>
+              </div>
+        </div>
+    </div>
+
+    <div class="col py-3">
+        {% block content %}
+
+            {% include "crud/list.html" %}
+
+        {% endblock %}
+    </div>
+
+</div>
+        </div>
+
+</html>

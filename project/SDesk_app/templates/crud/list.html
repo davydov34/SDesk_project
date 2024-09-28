@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="conatiner px-2">
+    <div class="d-flex justify-content-end">
+        <div class="row row-cols-auto my-2">
+            <div class="col float-right">
+                <button type="button" class="btn btn-primary position-relative" onclick="window.location.href='/2/'">Активных задач
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{counts.active}}</span>
+                </button>
+            </div>
+            <div class="col float-right">
+                <button type="button" class="btn btn-primary position-relative" onclick="window.location.href='/1/'">Не принятых задач
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">{{counts.un_accepted}}</span>
+                </button>
+            </div>
+            <div class="col float-right">
+                <button type="button" class="btn btn-primary position-relative" onclick="window.location.href='/0/'">Завершенных задач
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">{{counts.closed}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row my-3">
+        <table class="table table-striped table-bordered border-primary">
+    <tr class="table-success  table-striped fw-bold">
+        <td class="table-success">№ Задачи</td>
+        <td class="table-success">Наменование</td>
+        <td class="table-success">Инициатор</td>
+        <td class="table-success">Исполнитель</td>
+        <td class="table-success">Состояние</td>
+        <td class="table-success">Дата изменения</td>
+        <td class="table-success">Статус</td>
+    </tr>
+    {% for qs in QuerySet %}
+      <tr class="table-success table-striped align-middle">
+        <td align="center" width="5%">{{qs.num_doc}}</td>
+          <td class="text-start"><a href="{% url 'Task detail' qs.pk %}"> {{ qs.title }} от {{ qs.created_at|date:"d.m.Y" }}</a></td>
+        <td align="center" width="15%">{{ qs.initiator }}</td>
+        <td align="center" width="15%">{% if qs.executor %} {{ qs.executor }} {%else%} Не назначен {%endif%}
+        <td align="center" width="10%">{{ qs.status.status_str }}</td>
+        <td align="center" width="10%"> {% if qs.closing_at %} {{ qs.closing_at|date:"d.m.Y" }} {%else%} - {%endif%}</td>
+        <td align="center"> {% if qs.is_closed %} <b>Завершена</b> {%else%} В работе {%endif%}</td>
+      </tr>
+    {% endfor %}
+        </table>
+    </div>
+    <div class="row">
+        <div class="pagination">
+        <span class="step-links">
+            {% if QuerySet.has_previous %}
+                <a href="?page=1">&laquo; первая</a>
+                <a href="?page={{ QuerySet.previous_page_number }}">предыдущая</a>
+            {% endif %}
+
+            <span class="current">
+                Страница {{ QuerySet.number }} из {{ QuerySet.paginator.num_pages }}
+            </span>
+
+            {% if QuerySet.has_next %}
+                <a href="?page={{ QuerySet.next_page_number }}">следующая</a>
+                <a href="?page={{ QuerySet.paginator.num_pages }}">последняя &raquo;</a>
+            {% endif %}
+        </span>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
